@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from 'axios';
-import './App.css';
+import './styles.css';
+
+import CurrentUser from './Components/CurrentUser';
 
 class App extends React.Component {
   // constructor and super are still built into this class under the hood
@@ -22,7 +24,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-
+        <CurrentUser handle={this.state.user.login} />
       </div>
     );
   }
