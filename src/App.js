@@ -4,8 +4,7 @@ import './styles.css';
 
 import UserCard from './Components/UserCard';
 import Followers from './Components/Followers';
-
-import CurrentUser from './Components/CurrentUser';
+import SearchForm from './Components/SearchForm';
 
 class App extends React.Component {
   // constructor and super are still built into this class under the hood
@@ -15,6 +14,14 @@ class App extends React.Component {
     followers: []
   };
 
+  changeUser = (newUser) => {
+    this.setState({
+      username: newUser
+    });
+  };
+
+  
+
   componentDidMount() {
     axios.get(`https://api.github.com/users/${this.state.username}`)
     .then(response => {
@@ -23,30 +30,18 @@ class App extends React.Component {
         user: response.data
       });
     })
-    // .then(response => {
-    //   // console.dir(response.data);
-    //   const followerURLs = response.data.map(follower => follower.url);
-    //   return followerURLs;
-    // })
-    // .then(friends => {
-    //   // console.dir(friends);
-    //   friends.forEach((url, index) => {
-    //     axios.get(url)
-    //     .then(response => {
-    //       friends[index] = response.data;
-    //     })
-    //     .catch(error => console.log('Followers data not returned', error))
-    //   });
-
-    //   this.setState({
-    //     followers: friends
-    //   });
-    // })
     .catch(error => console.log(error));
   }
 
   // prevProps is the 1st parameter
   // prevState is the 2nd parameter
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.username !== prevState.username) {
+      console.log('CDU Invoked');
+      this.setState()
+    }
+  }
+
   // componentDidUpdate(prevProps, prevState) {
   //   if (this.state.user !== prevState.user) {
   //     console.log('CDU Invoked');
@@ -76,6 +71,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
+        <SearchForm changeUser={this.changeUser} />
         <UserCard handle={this.state.user.login} />
         <Followers username={this.state.username} />
       </div>
