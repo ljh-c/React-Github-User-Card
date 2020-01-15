@@ -20,10 +20,8 @@ class App extends React.Component {
     });
   };
 
-  
-
-  componentDidMount() {
-    axios.get(`https://api.github.com/users/${this.state.username}`)
+  getUser = (username) => {
+    axios.get(`https://api.github.com/users/${username}`)
     .then(response => {
       // console.dir(response.data);
       this.setState({
@@ -31,6 +29,10 @@ class App extends React.Component {
       });
     })
     .catch(error => console.log(error));
+  };
+
+  componentDidMount() {
+    this.getUser(this.state.username);
   }
 
   // prevProps is the 1st parameter
@@ -38,35 +40,9 @@ class App extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.state.username !== prevState.username) {
       console.log('CDU Invoked');
-      this.setState()
+      this.getUser(this.state.username);
     }
   }
-
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (this.state.user !== prevState.user) {
-  //     console.log('CDU Invoked');
-  //     axios.get('https://api.github.com/users/ljh-c/followers')
-  //     .then(response => {
-  //       const followerURLs = response.data.map(follower => follower.url);
-  //       // console.dir(followerURLs);
-  //       return followerURLs;
-  //     })
-  //     .then(followerURLs => {
-  //       followerURLs.forEach((url, index) => {
-  //         axios.get(url)
-  //         .then(response => {
-  //           followerURLs[index] = response.data;
-  //         })
-  //         .catch(error => console.log('Followers data not returned', error));
-  //       });
-
-  //       this.setState({
-  //         followers: followerURLs
-  //       });
-  //     })
-  //     .catch(error => console.log(error));
-  //   }
-  // }
 
   render() {
     return (
